@@ -6,6 +6,8 @@
 
 package LogIn;
 
+import Modelo.conexion;
+
 /**
  *
  * @author angel
@@ -28,40 +30,85 @@ public class loginScreen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        userInput = new javax.swing.JTextField();
+        passInput = new javax.swing.JPasswordField();
+        huella = new javax.swing.JLabel();
+        logotipo = new javax.swing.JLabel();
+        fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
-        setBounds(new java.awt.Rectangle(0, 0, 0, 0));
+        setBounds(new java.awt.Rectangle(500, 100, 0, 0));
         setMaximumSize(new java.awt.Dimension(400, 600));
+        setMinimumSize(new java.awt.Dimension(400, 600));
         setName("divMain"); // NOI18N
         setPreferredSize(new java.awt.Dimension(400, 600));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextField1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jTextField1.setText("CONTRASEÑA");
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 300, 80));
+        userInput.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        userInput.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        userInput.setText("USUARIO");
+        userInput.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                userInputFocusGained(evt);
+            }
+        });
+        getContentPane().add(userInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 300, 40));
 
-        jTextField2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jTextField2.setText("USUARIO");
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 300, 80));
+        passInput.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        passInput.setText("password");
+        passInput.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                passInputFocusGained(evt);
+            }
+        });
+        getContentPane().add(passInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 350, 300, 40));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogIn/images/fp.png"))); // NOI18N
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 470, 100, 110));
+        huella.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogIn/images/fp.png"))); // NOI18N
+        huella.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                huellaMouseClicked(evt);
+            }
+        });
+        getContentPane().add(huella, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 450, 100, 110));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogIn/images/lg.png"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 170, 180));
+        logotipo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogIn/images/lg.png"))); // NOI18N
+        getContentPane().add(logotipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 170, 180));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogIn/images/bg.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 600));
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogIn/images/bg.jpg"))); // NOI18N
+        fondo.setText("jLabel1");
+        fondo.setAlignmentY(0.0F);
+        fondo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void huellaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_huellaMouseClicked
+        manejarLogin();
+        if(evt.isMetaDown())
+            huella.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogIn/images/fpNegated.png")));
+        else if (evt.isAltDown())
+            huella.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogIn/images/fp.png")));
+        else
+            huella.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogIn/images/fpAproved.png")));
+    }//GEN-LAST:event_huellaMouseClicked
+    
+    private void manejarLogin(){
+        String user=this.userInput.getText(),pass=this.passInput.getText();
+        con=new conexion();
+        
+        con.desconectar();
+    }
+    
+    private void userInputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userInputFocusGained
+        this.userInput.selectAll();
+    }//GEN-LAST:event_userInputFocusGained
+
+    private void passInputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passInputFocusGained
+        this.passInput.selectAll();
+    }//GEN-LAST:event_passInputFocusGained
 
     /**
      * @param args the command line arguments
@@ -99,10 +146,11 @@ public class loginScreen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel fondo;
+    private javax.swing.JLabel huella;
+    private javax.swing.JLabel logotipo;
+    private javax.swing.JPasswordField passInput;
+    private javax.swing.JTextField userInput;
     // End of variables declaration//GEN-END:variables
+    private conexion con;
 }
