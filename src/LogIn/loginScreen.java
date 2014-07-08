@@ -97,9 +97,7 @@ public class loginScreen extends javax.swing.JFrame {
     
     private void manejarLogin(){
         String user=this.userInput.getText(),pass=this.passInput.getText();
-        con=new conexion();
-        
-        con.desconectar();
+        sesion s=new sesion();
     }
     
     private void userInputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userInputFocusGained
