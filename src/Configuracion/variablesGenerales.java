@@ -6,14 +6,14 @@ public class variablesGenerales {
     //de su propiedad
     
 //Angel Roca
-public String baseDeDatos="factura_ordenador";
-public String usuarioMysql="root";
-public String passMysql="spaceship";        
+//public String baseDeDatos="factura_ordenador";
+//public String usuarioMysql="root";
+//public String passMysql="spaceship";        
 
 //Shary Chuc
-//public String baseDeDatos="";
-//public String usuarioMysql="";
-//public String passMysql="";  
+public String baseDeDatos="factura_ordenador";
+public String usuarioMysql="root";
+public String passMysql="softshary";  
 
 //Arrioja Zamudio
 //public String baseDeDatos="";

@@ -42,7 +42,6 @@ public class loginScreen extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(400, 600));
         setMinimumSize(new java.awt.Dimension(400, 600));
         setName("divMain"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(400, 600));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
