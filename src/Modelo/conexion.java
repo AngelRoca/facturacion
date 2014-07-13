@@ -2,14 +2,15 @@ package Modelo;
 
 import java.sql.*;
 import Configuracion.variablesGenerales;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.shape.Path;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class conexion {
 
     private int registros;
+    private String registro_busqueda;
+    private String registro_precio;
+    
     Connection con = null;
     variablesGenerales vg = new variablesGenerales();
 
@@ -37,7 +38,23 @@ public class conexion {
     public void desconectar() {
         con = null;
     }
-
+    
+     public void busqueda_producto(String id, JTextField produc, JTextField precio) {
+        try {
+            PreparedStatement pstm = (PreparedStatement) conectar().prepareStatement("SELECT producto as produc, precio as price from productos where id_producto= " + id + ";");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            registro_busqueda = res.getString("produc");
+            registro_precio = res.getString("price");
+            res.close();
+//            JOptionPane.showMessageDialog(null, registro_busqueda + " " + registro_precio);
+            produc.setText(registro_busqueda);
+            precio.setText(registro_precio);
+        } catch (Exception e) {
+            
+        }
+    }
+    
     // Recibe el nombre de la tabla, los campos a tratar, y los valores a agregar
     public void agregar(String tabla, String campos, String valores) {
         String query = "INSERT INTO " + tabla;
@@ -93,40 +110,6 @@ public class conexion {
         } else {
             //Devuelve falso cuando todo ha salido bien
             System.out.println("Esto me dio verdadero");
-        }
-    }
-
-    public void busqueda(String tabla, String clausula) {
-        String query;
-        registros=0;
-        try {
-            query = "SELECT count(1) as total FROM " + tabla + " WHERE id_rfc_cliente = " + clausula;
-            verificar(query);
-//            if (registros == 0) {
-//                JOptionPane.showMessageDialog(null, registros);
-//
-//            } else {
-//                JOptionPane.showMessageDialog(null, registros);
-//            }
-
-        } catch (Exception e) {
-
-        }
-
-    }
-
-    public void verificar(String dato) {
-        try {
-            String query = dato;
-            PreparedStatement pstm = (PreparedStatement) conectar().prepareStatement(query);
-//            JOptionPane.showMessageDialog(null, pstm);
-            ResultSet res = pstm.executeQuery();
-            res.next();
-            registros = res.getInt("total");
-            res.close();
-              JOptionPane.showMessageDialog(null,registros);
-        } catch (SQLException ex) {
-            Logger.getLogger(conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
