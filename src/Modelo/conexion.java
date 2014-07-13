@@ -4,7 +4,7 @@ import java.sql.*;
 import Configuracion.variablesGenerales;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.shape.Path;
+//import javafx.scene.shape.Path;
 import javax.swing.JOptionPane;
 
 public class conexion {
