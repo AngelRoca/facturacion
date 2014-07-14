@@ -63,7 +63,7 @@ public class conexion {
 
         query += campos(max, camp);
         query += valores(max);
-
+        //System.out.println(query);
         if (prepararEstados(query, valores)) {
             //Devuelve verdadero cuando ha surgido algun error
             System.out.println("Esto me dio falso");
