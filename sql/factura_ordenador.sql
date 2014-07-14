@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 08-07-2014 a las 04:58:02
+-- Tiempo de generación: 13-07-2014 a las 00:58:08
 -- Versión del servidor: 5.5.37-1
 -- Versión de PHP: 5.5.9-1
 
@@ -91,6 +91,23 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   UNIQUE KEY `id_usuario_UNIQUE` (`id`),
   UNIQUE KEY `nombre_usuario_UNIQUE` (`nombre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ventas`
+--
+
+CREATE TABLE IF NOT EXISTS `ventas` (
+  `id_folio` int(11) NOT NULL,
+  `rfc_cliente` varchar(13) DEFAULT NULL,
+  `producto` varchar(30) DEFAULT NULL,
+  `cantidad` int(11) DEFAULT NULL,
+  `precio_unitario` double DEFAULT NULL,
+  `subtotal` double DEFAULT NULL,
+  `total` double DEFAULT NULL,
+  PRIMARY KEY (`id_folio`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
