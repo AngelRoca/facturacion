@@ -82,11 +82,10 @@ public class conexion {
         int max = camp.length;
         String c;
         String query = "UPDATE " + tabla + " SET ", aux = "";
-        if (clausula == null) {
+        if (clausula == null)
             c = "1";
-        } else {
+        else
             c = clausula;
-        }
         for (int i = 0; i < max; i++) {
             aux += camp[i] + "=?";
             if (i != max - 1) {
@@ -115,6 +114,41 @@ public class conexion {
             System.out.println("Esto me dio verdadero");
         }
     }
+    
+    public void leerDatos(String tabla){}
+    public void leerDatos(String campos,String tabla){}
+    public Object [][] leerDatos(String campos,String tabla,String condicion){
+        int rows;
+        int columns;
+        if((rows=getRows(tabla))==-1)
+            return null;
+        columns=campos.length();
+        Object[][] data = new String[rows][columns];
+        
+        try{
+            PreparedStatement pstm = (PreparedStatement)
+            con.getConnection().prepareStatement("SELECT codigo, producto, existencia, precio FROM producto ORDER BY codigo ");
+            ResultSet res = pstm.executeQuery();
+            System.out.println(res);
+            int i = 0;
+            while(res.next())
+            {
+             String estCodigo = res.getString("codigo");
+             String estProducto = res.getString("producto");
+             String estExitencia = res.getString("existencia");
+             String estPrecio = res.getString("precio");
+             data[i][0] = estCodigo;
+             data[i][1] = estProducto;
+             data[i][2] = estExitencia;
+             data[i][3] = estPrecio;
+             i++;
+        }
+        res.close();
+        }catch(SQLException e){
+        System.out.println(e);
+        }
+        return data;
+        }
 
     // Recoje el query predesarrollado y los valores a manejar en una query de mysql
     // y posteriormente los ejecuta.
@@ -150,6 +184,11 @@ public class conexion {
         desconectar();
         return r;
     }
+    
+    public boolean prepararEstados(String query){
+        boolean r=true;
+        return r;
+    }
 
     private String campos(int max, String[] camp) {
         String str = "(";
@@ -172,5 +211,22 @@ public class conexion {
         }
         str += ")";
         return str;
+    }
+    
+    private int getRows(String tabla){
+        int rows = -1;
+        try{
+           PreparedStatement pstm=(PreparedStatement)conectar().prepareStatement("SELECT count(1) as total FROM "+tabla);
+           ResultSet res = pstm.executeQuery();
+           res.next();
+           rows = res.getInt("total");
+           System.out.println(rows);
+           res.close();
+           }
+         catch(SQLException e)
+         {
+           System.out.println(e);
+         }
+        return rows;
     }
 }
