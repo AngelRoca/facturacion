@@ -115,37 +115,38 @@ public class conexion {
         }
     }
     
-    public void leerDatos(String tabla){}
-    public void leerDatos(String campos,String tabla){}
-    public Object [][] leerDatos(String campos,String tabla,String condicion){
+    public Object[][] leerDatos(String tabla){
+        Object[][] data=null;
         int rows;
-        int columns;
+        if((rows=getRows(tabla))==-1)
+            return null;
+        return data;
+    }
+    
+    public Object [][] leerDatos(String campos,String tabla,String condicion){
+        if(condicion==null)condicion="1";
+        int rows,columns;
         if((rows=getRows(tabla))==-1)
             return null;
         columns=campos.length();
         Object[][] data = new String[rows][columns];
-        
-        try{
-            PreparedStatement pstm = (PreparedStatement)
-            con.getConnection().prepareStatement("SELECT codigo, producto, existencia, precio FROM producto ORDER BY codigo ");
-            ResultSet res = pstm.executeQuery();
-            System.out.println(res);
+        String[] columnas=campos.split(",");
+        String query="SELECT "+campos+" FROM "+tabla+" WHERE "+condicion;;
+        ResultSet res;
+        try{ if((res=prepararEstados(query))==null)return null;
             int i = 0;
             while(res.next())
             {
-             String estCodigo = res.getString("codigo");
-             String estProducto = res.getString("producto");
-             String estExitencia = res.getString("existencia");
-             String estPrecio = res.getString("precio");
-             data[i][0] = estCodigo;
-             data[i][1] = estProducto;
-             data[i][2] = estExitencia;
-             data[i][3] = estPrecio;
+                for(int j=0;j<columns;j++){
+                    data[i][j]=res.getString(j);
+                }
              i++;
-        }
+            }
+            System.out.println(res);
         res.close();
         }catch(SQLException e){
-        System.out.println(e);
+        System.out.println("Problemas en leerDatos(campos,tabla,condicion: )"+e);
+        return null;
         }
         return data;
         }
@@ -153,7 +154,7 @@ public class conexion {
     // Recoje el query predesarrollado y los valores a manejar en una query de mysql
     // y posteriormente los ejecuta.
     // Si values viene como null, esta echo para ELIMINAR
-    public boolean prepararEstados(String query, String values) {
+    private boolean prepararEstados(String query, String values) {
         boolean r = true;
         String[] val = null;
         int max;
@@ -170,7 +171,7 @@ public class conexion {
                 System.out.println(pstm);
                 pstm.close();
             } catch (Exception e) {
-                System.out.println("Problemas de sincronizacion con la base de datos:\n " + e);
+                System.out.println("Problemas de sincronizacion con la base de datos:\n" + e);
             }
         } else {
             try {
@@ -178,16 +179,23 @@ public class conexion {
                 r = pstm.execute();
                 pstm.close();
             } catch (Exception e) {
-                System.out.println("PREPARAR ESTADOS. " + e);
+                System.out.println("Problemas al preparar estados:\n" + e);
             }
         }
         desconectar();
         return r;
     }
     
-    public boolean prepararEstados(String query){
-        boolean r=true;
-        return r;
+    private ResultSet prepararEstados(String query){
+        ResultSet res;
+        try{
+            PreparedStatement pstm = (PreparedStatement)conectar().prepareStatement(query);
+            res = pstm.executeQuery();
+        }catch(SQLException e){
+        System.out.println("Problemas al preparar estados en leerDatos:\n"+e);
+        res=null;
+        }
+        return res;
     }
 
     private String campos(int max, String[] camp) {
@@ -225,8 +233,25 @@ public class conexion {
            }
          catch(SQLException e)
          {
-           System.out.println(e);
+           System.out.println("Problemas al obtener numero de Filas: "+e);
          }
         return rows;
+    }
+    
+    private int getColumns(String tabla){
+        int columns=-1;
+        try{
+           PreparedStatement pstm=(PreparedStatement)conectar().prepareStatement("SELECT Count(*) as total FROM INFORMATION_SCHEMA.Columns where TABLE_NAME ="+tabla);
+           ResultSet res = pstm.executeQuery();
+           res.next();
+           columns = res.getInt("total");
+           System.out.println(columns);
+           res.close();
+           }
+         catch(SQLException e)
+         {
+           System.out.println("Problemas al obtener el numero de columnas: "+e);
+         }
+        return columns;
     }
 }
