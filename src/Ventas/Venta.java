@@ -25,6 +25,7 @@ public class Venta extends javax.swing.JFrame {
     private String registro_precio;
     private int factura;
     DefaultTableModel modelo;
+    ventaClass venta=new ventaClass();
 
     /**
      * Creates new form Venta
@@ -369,7 +370,7 @@ public class Venta extends javax.swing.JFrame {
         String aux1;
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             aux1 = producto.getText();
-            con.busqueda_producto(aux1, producto, precio);
+            venta.busqueda_producto(aux1, producto, precio);
 //            productos+=producto.getText().concat(",");
             cantidad.setEditable(true);
             cantidad.requestFocus();

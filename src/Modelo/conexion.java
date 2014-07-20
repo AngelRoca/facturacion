@@ -3,16 +3,7 @@ package Modelo;
 import java.sql.*;
 import Configuracion.variablesGenerales;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-
 public class conexion {
-
-    private int registros;
-    private String registro_busqueda;
-    private String registro_precio;
     
     Connection con = null;
     variablesGenerales vg = new variablesGenerales();
@@ -40,22 +31,6 @@ public class conexion {
 
     public void desconectar() {
         con = null;
-    }
-    
-     public void busqueda_producto(String id, JTextField produc, JTextField precio) {
-        try {
-            PreparedStatement pstm = (PreparedStatement) conectar().prepareStatement("SELECT producto as produc, precio as price from productos where id_producto= " + id + ";");
-            ResultSet res = pstm.executeQuery();
-            res.next();
-            registro_busqueda = res.getString("produc");
-            registro_precio = res.getString("price");
-            res.close();
-//            JOptionPane.showMessageDialog(null, registro_busqueda + " " + registro_precio);
-            produc.setText(registro_busqueda);
-            precio.setText(registro_precio);
-        } catch (Exception e) {
-            
-        }
     }
     
     // Recibe el nombre de la tabla, los campos a tratar, y los valores a agregar
@@ -116,36 +91,53 @@ public class conexion {
     }
     
     public Object[][] leerDatos(String tabla){
-        Object[][] data=null;
-        int rows;
-        if((rows=getRows(tabla))==-1)
+        int rows,columns;
+        if((rows=getRows(tabla))==-1)return null;
+        if((columns=getColumns(tabla))==-1)return null;
+        Object[][] data = new String[rows][columns];
+        String[] columnas=getColumnsNames(tabla);
+        String query="SELECT * FROM "+tabla;
+        ResultSet res;
+        
+        try{if((res=prepararEstados(query))==null)return null;
+            int i=0;
+            while(res.next()){
+                for(int j=0;j<columns;j++){
+                    data[i][j]=res.getString(columnas[j]);
+                }
+                i++;
+            }  
+            res.close();
+        }catch(Exception e){
+            System.out.println("Problemas en leerDatos(tabla):\n"+e);
             return null;
+        }
         return data;
     }
     
-    public Object [][] leerDatos(String campos,String tabla,String condicion){
+    public Object [][] leerDatos(String tabla,String campos,String condicion){
         if(condicion==null)condicion="1";
         int rows,columns;
         if((rows=getRows(tabla))==-1)
             return null;
-        columns=campos.length();
-        Object[][] data = new String[rows][columns];
         String[] columnas=campos.split(",");
-        String query="SELECT "+campos+" FROM "+tabla+" WHERE "+condicion;;
+        columns=columnas.length;
+        Object[][] data = new String[rows][columns];
+        String query="SELECT "+campos+" FROM "+tabla+" WHERE "+condicion;
+
         ResultSet res;
         try{ if((res=prepararEstados(query))==null)return null;
             int i = 0;
             while(res.next())
             {
                 for(int j=0;j<columns;j++){
-                    data[i][j]=res.getString(j);
+                    data[i][j]=res.getString(columnas[j]);
                 }
              i++;
             }
-            System.out.println(res);
         res.close();
         }catch(SQLException e){
-        System.out.println("Problemas en leerDatos(campos,tabla,condicion: )"+e);
+        System.out.println("Problemas en leerDatos(campos,tabla,condicion: ):\n"+e);
         return null;
         }
         return data;
@@ -187,13 +179,12 @@ public class conexion {
     }
     
     private ResultSet prepararEstados(String query){
-        ResultSet res;
+        ResultSet res=null;
         try{
             PreparedStatement pstm = (PreparedStatement)conectar().prepareStatement(query);
             res = pstm.executeQuery();
         }catch(SQLException e){
         System.out.println("Problemas al preparar estados en leerDatos:\n"+e);
-        res=null;
         }
         return res;
     }
@@ -228,7 +219,6 @@ public class conexion {
            ResultSet res = pstm.executeQuery();
            res.next();
            rows = res.getInt("total");
-           System.out.println(rows);
            res.close();
            }
          catch(SQLException e)
@@ -240,17 +230,36 @@ public class conexion {
     
     private int getColumns(String tabla){
         int columns=-1;
+        String query="SELECT Count(*) as total FROM INFORMATION_SCHEMA.Columns where TABLE_NAME='"+tabla+"' AND table_schema='"+vg.baseDeDatos+"'  GROUP BY column_default";
         try{
-           PreparedStatement pstm=(PreparedStatement)conectar().prepareStatement("SELECT Count(*) as total FROM INFORMATION_SCHEMA.Columns where TABLE_NAME ="+tabla);
+           PreparedStatement pstm=(PreparedStatement)conectar().prepareStatement(query);
            ResultSet res = pstm.executeQuery();
            res.next();
            columns = res.getInt("total");
-           System.out.println(columns);
            res.close();
            }
          catch(SQLException e)
          {
-           System.out.println("Problemas al obtener el numero de columnas: "+e);
+           System.out.println("Problemas al obtener el numero de columnas:\n"+e);
+         }
+        return columns;
+    }
+    private String[] getColumnsNames(String tabla){
+        String[] columns=new String[getColumns(tabla)];
+        String query="SELECT column_name FROM information_schema.columns WHERE table_name='"+tabla+"' AND table_schema='"+vg.baseDeDatos+"' GROUP BY column_name ORDER BY column_default";
+        try{
+           PreparedStatement pstm=(PreparedStatement)conectar().prepareStatement(query);
+           ResultSet res = pstm.executeQuery();
+           int i=0;
+                while(res.next()){
+                columns[i]=res.getString("column_name");
+                i++;
+                }
+           res.close();
+           }
+         catch(Exception e)
+         {
+           System.out.println("Problemas al obtener el nombre de las columnas:\n"+e);
          }
         return columns;
     }
