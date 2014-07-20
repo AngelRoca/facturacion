@@ -42,39 +42,45 @@ public class gestionFacturasScreen extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(600, 400));
         setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().setLayout(null);
 
         Top4.setBackground(new java.awt.Color(255, 255, 255));
         Top4.setForeground(new java.awt.Color(255, 255, 255));
         Top4.setText("FECHA:");
-        getContentPane().add(Top4, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, -1, -1));
+        getContentPane().add(Top4);
+        Top4.setBounds(510, 10, 49, 15);
 
         Fecha.setBackground(new java.awt.Color(255, 255, 255));
         Fecha.setForeground(new java.awt.Color(255, 255, 255));
         Fecha.setText("30/JUL/2014");
-        getContentPane().add(Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 30, -1, -1));
+        getContentPane().add(Fecha);
+        Fecha.setBounds(510, 30, 78, 15);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GestionUsuarios/images/logo.png"))); // NOI18N
         jLabel5.setText("jLabel5");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 50, 40));
+        getContentPane().add(jLabel5);
+        jLabel5.setBounds(10, 10, 50, 40);
 
         Top1.setBackground(new java.awt.Color(255, 255, 255));
         Top1.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         Top1.setForeground(new java.awt.Color(255, 255, 255));
         Top1.setText("Ordenador Net");
-        getContentPane().add(Top1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 20, 170, -1));
+        getContentPane().add(Top1);
+        Top1.setBounds(60, 20, 170, 24);
 
         Top2.setBackground(new java.awt.Color(255, 255, 255));
         Top2.setForeground(new java.awt.Color(255, 255, 255));
         Top2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         Top2.setText("Plaza las Tiendas de Cancun");
         Top2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        getContentPane().add(Top2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, 210, 20));
+        getContentPane().add(Top2);
+        Top2.setBounds(270, 10, 210, 20);
 
         Top3.setBackground(new java.awt.Color(255, 255, 255));
         Top3.setForeground(new java.awt.Color(255, 255, 255));
         Top3.setText("Local 6");
-        getContentPane().add(Top3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 30, -1, -1));
+        getContentPane().add(Top3);
+        Top3.setBounds(270, 30, 49, 15);
 
         BtnGenerar.setBackground(new java.awt.Color(255, 255, 255));
         BtnGenerar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GestionFacturas/images/generar.png"))); // NOI18N
@@ -84,7 +90,8 @@ public class gestionFacturasScreen extends javax.swing.JFrame {
         BtnGenerar.setPreferredSize(new java.awt.Dimension(100, 80));
         BtnGenerar.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/GestionFacturas/images/generarHover.png"))); // NOI18N
         BtnGenerar.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        getContentPane().add(BtnGenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 110, 100, -1));
+        getContentPane().add(BtnGenerar);
+        BtnGenerar.setBounds(490, 110, 100, 80);
 
         BtnBuscar.setBackground(new java.awt.Color(255, 255, 255));
         BtnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GestionFacturas/images/buscar.png"))); // NOI18N
@@ -92,7 +99,8 @@ public class gestionFacturasScreen extends javax.swing.JFrame {
         BtnBuscar.setPreferredSize(new java.awt.Dimension(100, 80));
         BtnBuscar.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/GestionFacturas/images/buscarHover.png"))); // NOI18N
         BtnBuscar.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        getContentPane().add(BtnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 190, -1, -1));
+        getContentPane().add(BtnBuscar);
+        BtnBuscar.setBounds(490, 190, 100, 80);
 
         BtnEliminar.setBackground(new java.awt.Color(255, 255, 255));
         BtnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GestionFacturas/images/cancelar.png"))); // NOI18N
@@ -100,11 +108,12 @@ public class gestionFacturasScreen extends javax.swing.JFrame {
         BtnEliminar.setPreferredSize(new java.awt.Dimension(100, 80));
         BtnEliminar.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/GestionFacturas/images/cancelarHover.png"))); // NOI18N
         BtnEliminar.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        getContentPane().add(BtnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 270, -1, -1));
+        getContentPane().add(BtnEliminar);
+        BtnEliminar.setBounds(490, 270, 100, 80);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GestionFacturas/images/bg.jpg"))); // NOI18N
-        jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 0, 600, 400);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

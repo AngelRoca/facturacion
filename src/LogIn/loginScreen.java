@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package LogIn;
 
 import Modelo.conexion;
@@ -39,11 +33,11 @@ public class loginScreen extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
         setBounds(new java.awt.Rectangle(500, 100, 0, 0));
-        setMaximumSize(new java.awt.Dimension(400, 600));
         setMinimumSize(new java.awt.Dimension(400, 600));
         setName("divMain"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(400, 602));
         setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().setLayout(null);
 
         userInput.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         userInput.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -53,7 +47,8 @@ public class loginScreen extends javax.swing.JFrame {
                 userInputFocusGained(evt);
             }
         });
-        getContentPane().add(userInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 300, 40));
+        getContentPane().add(userInput);
+        userInput.setBounds(50, 270, 300, 40);
 
         passInput.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         passInput.setText("password");
@@ -62,7 +57,8 @@ public class loginScreen extends javax.swing.JFrame {
                 passInputFocusGained(evt);
             }
         });
-        getContentPane().add(passInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 350, 300, 40));
+        getContentPane().add(passInput);
+        passInput.setBounds(50, 350, 300, 40);
 
         huella.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogIn/images/fp.png"))); // NOI18N
         huella.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -70,16 +66,19 @@ public class loginScreen extends javax.swing.JFrame {
                 huellaMouseClicked(evt);
             }
         });
-        getContentPane().add(huella, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 450, 100, 110));
+        getContentPane().add(huella);
+        huella.setBounds(150, 450, 100, 110);
 
         logotipo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogIn/images/lg.png"))); // NOI18N
-        getContentPane().add(logotipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 170, 180));
+        getContentPane().add(logotipo);
+        logotipo.setBounds(120, 30, 170, 180);
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogIn/images/bg.jpg"))); // NOI18N
         fondo.setText("jLabel1");
         fondo.setAlignmentY(0.0F);
         fondo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 600));
+        getContentPane().add(fondo);
+        fondo.setBounds(0, 0, 400, 600);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -96,7 +95,7 @@ public class loginScreen extends javax.swing.JFrame {
     
     private void manejarLogin(){
         String user=this.userInput.getText(),pass=this.passInput.getText();
-        sesion s=new sesion();
+        sesion s=new sesion(user,pass);
     }
     
     private void userInputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userInputFocusGained
