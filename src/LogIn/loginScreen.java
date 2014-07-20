@@ -33,9 +33,9 @@ public class loginScreen extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
         setBounds(new java.awt.Rectangle(500, 100, 0, 0));
-        setMaximumSize(new java.awt.Dimension(400, 600));
         setMinimumSize(new java.awt.Dimension(400, 600));
         setName("divMain"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(400, 602));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -95,7 +95,7 @@ public class loginScreen extends javax.swing.JFrame {
     
     private void manejarLogin(){
         String user=this.userInput.getText(),pass=this.passInput.getText();
-        sesion s=new sesion();
+        sesion s=new sesion(user,pass);
     }
     
     private void userInputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userInputFocusGained

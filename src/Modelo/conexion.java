@@ -7,30 +7,30 @@ public class conexion {
     
     Connection con = null;
     variablesGenerales vg = new variablesGenerales();
-
+    String bd, user, pass;
+    
     public conexion() {
-        String bd, user, pass;
         bd = vg.baseDeDatos;
         user = vg.usuarioMysql;
         pass = vg.passMysql;
+    }
 
+    public Connection conectar() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + bd, user, pass);
             if (con != null) {
-                System.out.println("Conectados");
+                System.out.println("**Conectados");
             }
         } catch (Exception e) {
             System.out.println("Error en la conexion:\n" + e);
         }
-    }
-
-    public Connection conectar() {
         return con;
     }
 
     public void desconectar() {
         con = null;
+        System.out.println("**Desconectado");
     }
     
     // Recibe el nombre de la tabla, los campos a tratar, y los valores a agregar
@@ -44,10 +44,10 @@ public class conexion {
         //System.out.println(query);
         if (prepararEstados(query, valores)) {
             //Devuelve verdadero cuando ha surgido algun error
-            System.out.println("Esto me dio falso");
+            System.out.println("agregar falso");
         } else {
             //Devuelve falso cuando todo ha salido bien
-            System.out.println("Esto me dio verdadero");
+            System.out.println("agregar verdadero");
         }
     }
 
@@ -71,10 +71,10 @@ public class conexion {
 
         if (prepararEstados(query, valores)) {
             //Devuelve verdadero cuando ha surgido algun error
-            System.out.println("Esto me dio falso");
+            System.out.println("actualizar falso");
         } else {
             //Devuelve falso cuando todo ha salido bien
-            System.out.println("Esto me dio verdadero");
+            System.out.println("actualizar verdadero");
         }
     }
 
@@ -83,18 +83,18 @@ public class conexion {
         String query = "DELETE FROM " + tabla + " WHERE " + clausula;
         if (prepararEstados(query, null)) {
             //Devuelve verdadero cuando ha surgido algun error
-            System.out.println("Esto me dio falso");
+            System.out.println("eliminar falso");
         } else {
             //Devuelve falso cuando todo ha salido bien
-            System.out.println("Esto me dio verdadero");
+            System.out.println("eliminar verdadero");
         }
     }
     
-    public Object[][] leerDatos(String tabla){
+    public String[][] leerDatos(String tabla){
         int rows,columns;
         if((rows=getRows(tabla))==-1)return null;
         if((columns=getColumns(tabla))==-1)return null;
-        Object[][] data = new String[rows][columns];
+        String[][] data = new String[rows][columns];
         String[] columnas=getColumnsNames(tabla);
         String query="SELECT * FROM "+tabla;
         ResultSet res;
@@ -115,14 +115,15 @@ public class conexion {
         return data;
     }
     
-    public Object [][] leerDatos(String tabla,String campos,String condicion){
+    public String [][] leerDatos(String tabla,String campos,String condicion){
         if(condicion==null)condicion="1";
         int rows,columns;
         if((rows=getRows(tabla))==-1)
             return null;
+        
         String[] columnas=campos.split(",");
         columns=columnas.length;
-        Object[][] data = new String[rows][columns];
+        String[][] data = new String[rows][columns];
         String query="SELECT "+campos+" FROM "+tabla+" WHERE "+condicion;
 
         ResultSet res;
@@ -153,14 +154,12 @@ public class conexion {
         if (values != null) {
             val = values.split(",");
             max = val.length;
-
             try {
                 PreparedStatement pstm = (PreparedStatement) conectar().prepareStatement(query);
                 for (int i = 0; i < max; i++) {
                     pstm.setString(i + 1, val[i]);
                 }
                 r = pstm.execute();
-                System.out.println(pstm);
                 pstm.close();
             } catch (Exception e) {
                 System.out.println("Problemas de sincronizacion con la base de datos:\n" + e);
@@ -186,6 +185,7 @@ public class conexion {
         }catch(SQLException e){
         System.out.println("Problemas al preparar estados en leerDatos:\n"+e);
         }
+        desconectar();
         return res;
     }
 

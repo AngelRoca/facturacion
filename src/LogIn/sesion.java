@@ -3,21 +3,21 @@ package LogIn;
 import Modelo.conexion;
 
 public class sesion {
+    private String User;
+    private String Pass;
+    private String Permissions;
+    conexion con;
     
-    public sesion(){
-        conexion con=new conexion();
-        /*con.agregar("usuarios", "nombre,password,permisos", "rocks,rufu,2");
-        con.actualizar("usuarios", "nombre,password", "Ces,rumble", "id=2");
-        con.eliminar("usuarios", "id=7");*/
-        Object[][] r=con.leerDatos("productos");
-        int a=r.length;
-        int b=r[0].length;
-        for(int i=0;i<a;i++){
-            for(int j=0;j<b;j++){
-                System.out.println(r[i][j]);
-            }
-            System.out.println("\n");
-        }
-        
+    public sesion(String user,String pass){
+        con=new conexion();
+        String[][] data=null;
+        data=con.leerDatos("usuarios", "nombre,password,permisos", "nombre='"+user+"' and password='"+pass+"'");
+        User=data[0][0];
+        Pass=data[0][1];
+        Permissions=data[0][2];
+        System.out.println(User);
+        System.out.println(Pass);
+        System.out.println(Permissions);
     }
+    
 }
