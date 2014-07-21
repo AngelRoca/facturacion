@@ -8,7 +8,7 @@ public class variablesGenerales {
 //Angel Roca
 public String baseDeDatos="factura_ordenador";
 public String usuarioMysql="root";
-public String passMysql="spaceship";        
+public String passMysql="softshary";        
 
 //Shary Chuc
     /*public String baseDeDatos="factura_ordenador";
