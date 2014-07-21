@@ -136,6 +136,7 @@ public class conexion {
                 }
              i++;
             }
+            if(data[0][0]==null) return null;
         res.close();
         }catch(SQLException e){
         System.out.println("Problemas en leerDatos(campos,tabla,condicion: ):\n"+e);

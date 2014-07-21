@@ -7,7 +7,7 @@ import Modelo.conexion;
  * @author angel
  */
 public class loginScreen extends javax.swing.JFrame {
-
+    sesion s;
     /**
      * Creates new form loginScreen
      */
@@ -85,17 +85,17 @@ public class loginScreen extends javax.swing.JFrame {
 
     private void huellaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_huellaMouseClicked
         manejarLogin();
-        if(evt.isMetaDown())
+        if(s.getAcceso()=="Acceso Denegado" || evt.isMetaDown())
             huella.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogIn/images/fpNegated.png")));
-        else if (evt.isAltDown())
-            huella.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogIn/images/fp.png")));
-        else
+        else if(s.getAcceso()=="Acceso Concedido"){
             huella.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogIn/images/fpAproved.png")));
+            System.out.println(s.getAcceso());
+        }
     }//GEN-LAST:event_huellaMouseClicked
     
     private void manejarLogin(){
         String user=this.userInput.getText(),pass=this.passInput.getText();
-        sesion s=new sesion(user,pass);
+        s=new sesion(user,pass);
     }
     
     private void userInputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userInputFocusGained
