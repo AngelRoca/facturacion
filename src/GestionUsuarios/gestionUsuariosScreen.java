@@ -6,8 +6,12 @@
 
 package GestionUsuarios;
 
+import Modelo.sesion;
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,20 +19,31 @@ import javax.swing.table.DefaultTableModel;
  */
 public class gestionUsuariosScreen extends javax.swing.JFrame {
 
+    gestionUsuarios gu;
+    gestionUsuariosScreen estaVentana=this;
     /**
      * Creates new form gestionUsuariosScreen
      */
-    public gestionUsuariosScreen() {
+    public gestionUsuariosScreen(sesion s) {
         initComponents();
         initComponentsCustom();
+        gu=new gestionUsuarios(s);
+        this.fechaLabel.setText(getFechaActual());
+        this.userNameLabel.setText(gu.getUsuario());
     }
     
-    public void initComponentsCustom(){
+    private String getFechaActual(){
+        Date hoy=new Date();        
+        SimpleDateFormat formato=new SimpleDateFormat("dd/MMM/yyyy");
+        return formato.format(hoy);
+    }
+    
+    private void initComponentsCustom(){
         setTableContador();
         setTableCajero();
     }
     
-    public void setTableCajero(){
+    private void setTableCajero(){
         Object[][] cont={
             {null,null,null},
             {null,null,null},
@@ -41,7 +56,7 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
         DefaultTableModel mod=new DefaultTableModel(cont,head);
         this.ListaCajeros.setModel(mod);
     }
-    public void setTableContador(){
+    private void setTableContador(){
         Object[][] cont={
             {null,null},
             {null,null},
@@ -93,8 +108,8 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
         ListaContadores = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        Top4 = new javax.swing.JLabel();
-        Fecha = new javax.swing.JLabel();
+        userNameLabel = new javax.swing.JLabel();
+        fechaLabel = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         Top1 = new javax.swing.JLabel();
         Top2 = new javax.swing.JLabel();
@@ -103,6 +118,9 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestion de Usuarios");
+        setBounds(new java.awt.Rectangle(400, 100, 0, 0));
+        setMinimumSize(new java.awt.Dimension(600, 400));
+        setPreferredSize(new java.awt.Dimension(600, 405));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -114,6 +132,11 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
         BtnGuardarContador.setText("GUARDAR");
         BtnGuardarContador.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         BtnGuardarContador.setPreferredSize(new java.awt.Dimension(110, 25));
+        BtnGuardarContador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnGuardarContadorActionPerformed(evt);
+            }
+        });
 
         BtnEliminarContador.setBackground(new java.awt.Color(255, 255, 255));
         BtnEliminarContador.setText("ELIMINAR");
@@ -321,17 +344,17 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
         getContentPane().add(jLabel2);
         jLabel2.setBounds(400, 230, 94, 15);
 
-        Top4.setBackground(new java.awt.Color(255, 255, 255));
-        Top4.setForeground(new java.awt.Color(255, 255, 255));
-        Top4.setText("FECHA:");
-        getContentPane().add(Top4);
-        Top4.setBounds(510, 10, 49, 15);
+        userNameLabel.setBackground(new java.awt.Color(255, 255, 255));
+        userNameLabel.setForeground(new java.awt.Color(255, 255, 255));
+        userNameLabel.setText("Nombre");
+        getContentPane().add(userNameLabel);
+        userNameLabel.setBounds(490, 10, 80, 15);
 
-        Fecha.setBackground(new java.awt.Color(255, 255, 255));
-        Fecha.setForeground(new java.awt.Color(255, 255, 255));
-        Fecha.setText("30/JUL/2014");
-        getContentPane().add(Fecha);
-        Fecha.setBounds(510, 30, 78, 15);
+        fechaLabel.setBackground(new java.awt.Color(255, 255, 255));
+        fechaLabel.setForeground(new java.awt.Color(255, 255, 255));
+        fechaLabel.setText("30/JUL/2014");
+        getContentPane().add(fechaLabel);
+        fechaLabel.setBounds(490, 30, 78, 15);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GestionUsuarios/images/logo.png"))); // NOI18N
         jLabel5.setText("jLabel5");
@@ -366,6 +389,15 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void BtnGuardarContadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGuardarContadorActionPerformed
+        boolean ans=false;
+        ans=gu.agregarContador(this.ContadorNombreInput.getText(), this.ContadorContrasenaInput.getText(),this.ContadorNotasInput.getText());
+        /*if(ans==true)
+        JOptionPane.showMessageDialog(estaVentana, "Se ha agregado correctamente el usuario\n"+ContadorNombreInput.getText());
+        else
+        JOptionPane.showMessageDialog(estaVentana, "Hubo algun problema al agregar este contacto");*/
+    }//GEN-LAST:event_BtnGuardarContadorActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -396,7 +428,7 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new gestionUsuariosScreen().setVisible(true);
+                new gestionUsuariosScreen(null).setVisible(true);
             }
         });
     }
@@ -417,7 +449,6 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
     private javax.swing.JLabel ContadorNombreLabel;
     private javax.swing.JTextArea ContadorNotasInput;
     private javax.swing.JLabel ContadorNotasLabel;
-    private javax.swing.JLabel Fecha;
     private javax.swing.JTable ListaCajeros;
     private javax.swing.JTable ListaContadores;
     private javax.swing.JTabbedPane PanelSecciones;
@@ -426,8 +457,8 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
     private javax.swing.JLabel Top1;
     private javax.swing.JLabel Top2;
     private javax.swing.JLabel Top3;
-    private javax.swing.JLabel Top4;
     private javax.swing.JLabel backGround;
+    private javax.swing.JLabel fechaLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -438,5 +469,6 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel userNameLabel;
     // End of variables declaration//GEN-END:variables
 }

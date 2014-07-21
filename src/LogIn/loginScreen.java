@@ -1,6 +1,8 @@
 package LogIn;
 
-import Modelo.conexion;
+import Modelo.*;
+import Ventas.Venta;
+import GestionUsuarios.gestionUsuariosScreen;
 
 /**
  *
@@ -8,6 +10,9 @@ import Modelo.conexion;
  */
 public class loginScreen extends javax.swing.JFrame {
     sesion s;
+    Venta cajero;
+    gestionUsuariosScreen contador;
+    loginScreen estaVentana=this;
     /**
      * Creates new form loginScreen
      */
@@ -90,6 +95,18 @@ public class loginScreen extends javax.swing.JFrame {
         else if(s.getAcceso()=="Acceso Concedido"){
             huella.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogIn/images/fpAproved.png")));
             System.out.println(s.getAcceso());
+            System.out.println(s.getPermisos());
+            if(s.getPermisos().equals("0")){
+                cajero=new Venta();
+                cajero.setVisible(true);
+                estaVentana.hide();
+            }
+            else{
+                contador=new gestionUsuariosScreen(s);
+                contador.show();
+                //contador.setVisible(true);
+                estaVentana.hide();
+            }                
         }
     }//GEN-LAST:event_huellaMouseClicked
     

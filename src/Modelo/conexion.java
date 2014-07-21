@@ -34,25 +34,29 @@ public class conexion {
     }
     
     // Recibe el nombre de la tabla, los campos a tratar, y los valores a agregar
-    public void agregar(String tabla, String campos, String valores) {
+    public boolean agregar(String tabla, String campos, String valores) {
+        System.out.println("Entramos a agregar");
         String query = "INSERT INTO " + tabla;
         String[] camp = campos.split(",");
         int max = camp.length;
 
         query += campos(max, camp);
+        System.out.println("Despues de query +  campos");
         query += valores(max);
-        //System.out.println(query);
+        System.out.println(query);
         if (prepararEstados(query, valores)) {
             //Devuelve verdadero cuando ha surgido algun error
             System.out.println("agregar falso");
+            return false;
         } else {
             //Devuelve falso cuando todo ha salido bien
             System.out.println("agregar verdadero");
+            return true;
         }
     }
 
     //Recibe el nombre de la tabla,los campos a tratar,los valores a actualiza y la clausula a cumplir
-    public void actualizar(String tabla, String campos, String valores, String clausula) {
+    public boolean actualizar(String tabla, String campos, String valores, String clausula) {
         String[] camp = campos.split(",");
         int max = camp.length;
         String c;
@@ -72,21 +76,25 @@ public class conexion {
         if (prepararEstados(query, valores)) {
             //Devuelve verdadero cuando ha surgido algun error
             System.out.println("actualizar falso");
+            return false;
         } else {
             //Devuelve falso cuando todo ha salido bien
             System.out.println("actualizar verdadero");
+            return true;
         }
     }
 
     // Recibe el nombre de la tabla y la clausula que cumple que row eliminar
-    public void eliminar(String tabla, String clausula) {
+    public boolean eliminar(String tabla, String clausula) {
         String query = "DELETE FROM " + tabla + " WHERE " + clausula;
         if (prepararEstados(query, null)) {
             //Devuelve verdadero cuando ha surgido algun error
             System.out.println("eliminar falso");
+            return false;
         } else {
             //Devuelve falso cuando todo ha salido bien
             System.out.println("eliminar verdadero");
+            return true;
         }
     }
     

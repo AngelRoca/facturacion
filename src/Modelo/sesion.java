@@ -1,4 +1,4 @@
-package LogIn;
+package Modelo;
 
 import Modelo.conexion;
 

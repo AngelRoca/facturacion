@@ -1,15 +1,41 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package GestionUsuarios;
+import Modelo.*;
 
-/**
- *
- * @author angel
- */
 public class gestionUsuarios {
+    conexion con;
+    sesion s;
     
+    public gestionUsuarios(sesion s){
+        this.s=s;
+    }
+    
+    public boolean agregarContador(String nombre,String pass,String notas){
+        String valores=nombre+",";
+        valores+=pass+",1,";
+        valores+=notas;
+        System.out.println("antes de agregar="+valores);
+        if((con.agregar("usuarios", "nombre,password,permisos,notas", valores))) 
+            System.out.println("Despues de agregar");
+        return true;
+    }
+    
+    public void agregarCajero(){
+        
+    }
+    
+    public void eliminarContador(){
+        
+    }
+    
+    public void eliminarCajero(){
+        
+    }
+    
+    public String getUsuario(){
+        return s.getUsuario();
+    }
+    
+    public String getUserName(){
+        return s.getUsuario();
+    }
 }
