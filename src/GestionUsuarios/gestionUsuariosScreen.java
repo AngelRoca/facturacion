@@ -1,11 +1,14 @@
 package GestionUsuarios;
 
+import FacturaPDF.facturaPDFScreen;
+import Modelo.conexion;
 import Modelo.sesion;
-import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,55 +16,98 @@ import javax.swing.JOptionPane;
  */
 public class gestionUsuariosScreen extends javax.swing.JFrame {
 
+    private conexion con = new conexion();
     gestionUsuarios gu;
-    gestionUsuariosScreen estaVentana=this;
+    gestionUsuariosScreen estaVentana = this;
+    DefaultTableModel modelo, modelo1;
+
     /**
      * Creates new form gestionUsuariosScreen
      */
     public gestionUsuariosScreen(sesion s) {
         initComponents();
         initComponentsCustom();
-        gu=new gestionUsuarios(s);
+        gu = new gestionUsuarios(s);
         this.fechaLabel.setText(getFechaActual());
         this.userNameLabel.setText(gu.getUsuario());
+        this.setSize(601, 420);
+//       
     }
-    
-    private String getFechaActual(){
-        Date hoy=new Date();        
-        SimpleDateFormat formato=new SimpleDateFormat("dd/MMM/yyyy");
+
+    private String getFechaActual() {
+        Date hoy = new Date();
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MMM/yyyy");
         return formato.format(hoy);
     }
-    
-    private void initComponentsCustom(){
+
+    private void initComponentsCustom() {
         setTableContador();
         setTableCajero();
     }
-    
-    private void setTableCajero(){
-        Object[][] cont={
-            {null,null,null},
-            {null,null,null},
-            {null,null,null},
-            {null,null,null},
-            {null,null,null},
-            {null,null,null}
-        };
-        String[] head={"Nombre","Contraseña","Sucursal"};
-        DefaultTableModel mod=new DefaultTableModel(cont,head);
-        this.ListaCajeros.setModel(mod);
+
+    private void setTableCajero() {
+        modelo = new DefaultTableModel();
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Contraseña");
+        modelo.addColumn("Sucursal");
+        this.ListaCajeros.setModel(modelo);
+        ListaUsuarios t = new ListaUsuarios();
+        t.getDatos(modelo);
     }
-    private void setTableContador(){
-        Object[][] cont={
-            {null,null},
-            {null,null},
-            {null,null},
-            {null,null},
-            {null,null},
-            {null,null}
-        };
-        String[] head={"Nombre","Contraseña"};
-        DefaultTableModel mod=new DefaultTableModel(cont,head);
-        this.ListaContadores.setModel(mod);
+
+    private void setTableContador() {
+        modelo1 = new DefaultTableModel();
+        modelo1.addColumn("Nombre");
+        modelo1.addColumn("Contraseña");
+        this.ListaContadores.setModel(modelo1);
+        listaUsuariosContadores lis = new listaUsuariosContadores();
+        lis.getDatos1(modelo1);
+    }
+
+    public void EliminarCajeros() {
+        //Elimina la fila seleccionada
+        try {
+            String registro = (String) ListaCajeros.getValueAt(ListaCajeros.getSelectedRow(), ListaCajeros.getSelectedColumn());
+            DefaultTableModel mod = (DefaultTableModel) ListaCajeros.getModel();
+            mod.removeRow(ListaCajeros.getSelectedRow());
+            Statement createst = con.conectar().createStatement();
+            createst.executeUpdate("DELETE from usuarios where nombre = '" + registro + "';");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error Seleccione fila " + JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    public void EliminarContadores() {
+        //Elimina la fila seleccionada
+        try {
+            String registro1 = (String) ListaContadores.getValueAt(ListaContadores.getSelectedRow(), ListaContadores.getSelectedColumn());
+            DefaultTableModel mod1 = (DefaultTableModel) ListaContadores.getModel();
+            mod1.removeRow(ListaContadores.getSelectedRow());
+            Statement createst1 = con.conectar().createStatement();
+            createst1.executeUpdate("DELETE from usuarios where nombre = '" + registro1 + "';");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error Seleccione fila " + JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    public void reiniciarJTable() {
+        try {
+            for (int i = 0; i < ListaCajeros.getRowCount(); i++) {
+                modelo.removeRow(i);
+                i -= 1;
+            }
+            for (int j = 0; j < ListaContadores.getRowCount(); j++) {
+                modelo1.removeRow(j);
+                j -= 1;
+            }
+            ListaUsuarios l1 = new ListaUsuarios();
+            l1.getDatos(modelo);
+            listaUsuariosContadores l2 = new listaUsuariosContadores();
+            l2.getDatos1(modelo1);
+
+        } catch (Exception e) {
+        }
     }
 
     /**
@@ -76,7 +122,6 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
         PanelSecciones = new javax.swing.JTabbedPane();
         TabContador = new javax.swing.JPanel();
         BtnGuardarContador = new javax.swing.JButton();
-        BtnEliminarContador = new javax.swing.JButton();
         ContadorNombreLabel = new javax.swing.JLabel();
         ContadorContrasenaInput = new javax.swing.JTextField();
         ContadorContrasenaLabel = new javax.swing.JLabel();
@@ -93,9 +138,8 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
         CajeroSucursalInput = new javax.swing.JTextField();
         CajeroNotasLabel = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        CajeroNotas = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
         ListaCajeros = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -108,6 +152,9 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
         Top1 = new javax.swing.JLabel();
         Top2 = new javax.swing.JLabel();
         Top3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         backGround = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -132,18 +179,25 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
             }
         });
 
-        BtnEliminarContador.setBackground(new java.awt.Color(255, 255, 255));
-        BtnEliminarContador.setText("ELIMINAR");
-        BtnEliminarContador.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        BtnEliminarContador.setPreferredSize(new java.awt.Dimension(110, 25));
-
         ContadorNombreLabel.setText("Nombre:");
 
+        ContadorContrasenaInput.setToolTipText("Presione enter para continuar");
         ContadorContrasenaInput.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        ContadorContrasenaInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                ContadorContrasenaInputKeyPressed(evt);
+            }
+        });
 
         ContadorContrasenaLabel.setText("Contraseña:");
 
+        ContadorNombreInput.setToolTipText("Presione enter para continuar");
         ContadorNombreInput.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        ContadorNombreInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                ContadorNombreInputKeyPressed(evt);
+            }
+        });
 
         ContadorNotasLabel.setText("Notas:");
 
@@ -152,7 +206,13 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
         ContadorNotasInput.setColumns(20);
         ContadorNotasInput.setLineWrap(true);
         ContadorNotasInput.setRows(5);
+        ContadorNotasInput.setToolTipText("Presione enter para continuar");
         ContadorNotasInput.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        ContadorNotasInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                ContadorNotasInputKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(ContadorNotasInput);
 
         javax.swing.GroupLayout TabContadorLayout = new javax.swing.GroupLayout(TabContador);
@@ -169,12 +229,11 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ContadorNombreLabel)
                             .addComponent(ContadorContrasenaLabel)
-                            .addComponent(ContadorNotasLabel))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(TabContadorLayout.createSequentialGroup()
-                        .addComponent(BtnGuardarContador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BtnEliminarContador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(ContadorNotasLabel)
+                            .addGroup(TabContadorLayout.createSequentialGroup()
+                                .addGap(58, 58, 58)
+                                .addComponent(BtnGuardarContador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 2, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         TabContadorLayout.setVerticalGroup(
@@ -193,10 +252,8 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(TabContadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BtnGuardarContador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnEliminarContador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(BtnGuardarContador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         PanelSecciones.addTab("CONTADOR", TabContador);
@@ -205,21 +262,39 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
 
         CajeroNombreLabel.setText("Nombre:");
 
+        CajeroNombreInput.setToolTipText("Presione enter para continuar");
         CajeroNombreInput.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         CajeroNombreInput.setMinimumSize(new java.awt.Dimension(200, 19));
         CajeroNombreInput.setPreferredSize(new java.awt.Dimension(200, 19));
+        CajeroNombreInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CajeroNombreInputKeyPressed(evt);
+            }
+        });
 
         CajeroContrasenaLabel.setText("Contraseña:");
 
+        CajeroContrasenaInput.setToolTipText("Presione enter para continuar");
         CajeroContrasenaInput.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         CajeroContrasenaInput.setMinimumSize(new java.awt.Dimension(200, 19));
         CajeroContrasenaInput.setPreferredSize(new java.awt.Dimension(200, 19));
+        CajeroContrasenaInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CajeroContrasenaInputKeyPressed(evt);
+            }
+        });
 
         CajeroSucursalLabel.setText("Sucursal:");
 
+        CajeroSucursalInput.setToolTipText("Presione enter para continuar");
         CajeroSucursalInput.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         CajeroSucursalInput.setMinimumSize(new java.awt.Dimension(200, 19));
         CajeroSucursalInput.setPreferredSize(new java.awt.Dimension(200, 19));
+        CajeroSucursalInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CajeroSucursalInputKeyPressed(evt);
+            }
+        });
 
         CajeroNotasLabel.setText("Notas:");
 
@@ -227,19 +302,25 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
         jButton1.setText("GUARDAR");
         jButton1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         jButton1.setPreferredSize(new java.awt.Dimension(110, 25));
-
-        jButton2.setBackground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("ELIMINAR");
-        jButton2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        jButton2.setPreferredSize(new java.awt.Dimension(110, 25));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jScrollPane2.setBorder(null);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jTextArea1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        jScrollPane2.setViewportView(jTextArea1);
+        CajeroNotas.setColumns(20);
+        CajeroNotas.setLineWrap(true);
+        CajeroNotas.setRows(5);
+        CajeroNotas.setToolTipText("Presione enter para continuar");
+        CajeroNotas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        CajeroNotas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CajeroNotasKeyPressed(evt);
+            }
+        });
+        jScrollPane2.setViewportView(CajeroNotas);
 
         javax.swing.GroupLayout TabCajeroLayout = new javax.swing.GroupLayout(TabCajero);
         TabCajero.setLayout(TabCajeroLayout);
@@ -247,23 +328,19 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
             TabCajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TabCajeroLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(TabCajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(TabCajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                    .addComponent(CajeroNombreLabel)
+                    .addComponent(CajeroContrasenaLabel)
+                    .addComponent(CajeroSucursalLabel)
+                    .addComponent(CajeroNotasLabel)
+                    .addComponent(CajeroNombreInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(CajeroContrasenaInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(CajeroSucursalInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(TabCajeroLayout.createSequentialGroup()
-                        .addGroup(TabCajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
-                            .addComponent(CajeroNombreLabel)
-                            .addComponent(CajeroContrasenaLabel)
-                            .addComponent(CajeroSucursalLabel)
-                            .addComponent(CajeroNotasLabel)
-                            .addComponent(CajeroNombreInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(CajeroContrasenaInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(CajeroSucursalInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(TabCajeroLayout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addGap(58, 58, 58)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         TabCajeroLayout.setVerticalGroup(
             TabCajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,70 +362,68 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(TabCajeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         PanelSecciones.addTab("CAJERO", TabCajero);
 
         getContentPane().add(PanelSecciones);
-        PanelSecciones.setBounds(10, 70, 260, 310);
+        PanelSecciones.setBounds(10, 60, 260, 320);
 
         ListaCajeros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane3.setViewportView(ListaCajeros);
 
         getContentPane().add(jScrollPane3);
-        jScrollPane3.setBounds(290, 90, 300, 130);
+        jScrollPane3.setBounds(290, 80, 300, 120);
 
         ListaContadores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane4.setViewportView(ListaContadores);
 
         getContentPane().add(jScrollPane4);
-        jScrollPane4.setBounds(290, 250, 300, 130);
+        jScrollPane4.setBounds(290, 250, 300, 120);
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("CAJEROS");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(420, 70, 59, 15);
+        jLabel1.setBounds(420, 60, 70, 14);
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("CONTADORES");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(400, 230, 94, 15);
+        jLabel2.setBounds(410, 230, 69, 14);
 
         userNameLabel.setBackground(new java.awt.Color(255, 255, 255));
         userNameLabel.setForeground(new java.awt.Color(255, 255, 255));
         userNameLabel.setText("Nombre");
         getContentPane().add(userNameLabel);
-        userNameLabel.setBounds(490, 10, 80, 15);
+        userNameLabel.setBounds(420, 10, 80, 14);
 
         fechaLabel.setBackground(new java.awt.Color(255, 255, 255));
         fechaLabel.setForeground(new java.awt.Color(255, 255, 255));
         fechaLabel.setText("30/JUL/2014");
         getContentPane().add(fechaLabel);
-        fechaLabel.setBounds(490, 30, 78, 15);
+        fechaLabel.setBounds(420, 30, 61, 14);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GestionUsuarios/images/logo.png"))); // NOI18N
         jLabel5.setText("jLabel5");
@@ -360,7 +435,7 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
         Top1.setForeground(new java.awt.Color(255, 255, 255));
         Top1.setText("Ordenador Net");
         getContentPane().add(Top1);
-        Top1.setBounds(60, 20, 170, 24);
+        Top1.setBounds(60, 20, 170, 26);
 
         Top2.setBackground(new java.awt.Color(255, 255, 255));
         Top2.setForeground(new java.awt.Color(255, 255, 255));
@@ -368,13 +443,42 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
         Top2.setText("Plaza las Tiendas de Cancun");
         Top2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         getContentPane().add(Top2);
-        Top2.setBounds(270, 10, 210, 20);
+        Top2.setBounds(240, 10, 210, 20);
 
         Top3.setBackground(new java.awt.Color(255, 255, 255));
         Top3.setForeground(new java.awt.Color(255, 255, 255));
         Top3.setText("Local 6");
         getContentPane().add(Top3);
-        Top3.setBounds(270, 30, 49, 15);
+        Top3.setBounds(240, 30, 33, 14);
+
+        jButton2.setText("ELIMINAR");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2);
+        jButton2.setBounds(400, 370, 100, 23);
+
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogIn/images/Imagen1.png"))); // NOI18N
+        jButton4.setBorderPainted(false);
+        jButton4.setContentAreaFilled(false);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton4);
+        jButton4.setBounds(510, 0, 80, 50);
+
+        jButton3.setText("ELIMINAR");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3);
+        jButton3.setBounds(400, 200, 100, 23);
 
         backGround.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GestionUsuarios/images/bg.jpg"))); // NOI18N
         getContentPane().add(backGround);
@@ -383,14 +487,112 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void BtnGuardarContadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGuardarContadorActionPerformed
-        boolean ans=false;
-        ans=gu.agregarContador(this.ContadorNombreInput.getText(), this.ContadorContrasenaInput.getText(),this.ContadorNotasInput.getText());
-        /*if(ans==true)
-        JOptionPane.showMessageDialog(estaVentana, "Se ha agregado correctamente el usuario\n"+ContadorNombreInput.getText());
-        else
-        JOptionPane.showMessageDialog(estaVentana, "Hubo algun problema al agregar este contacto");*/
+//        boolean ans=false;
+//        ans=gu.agregarContador(this.ContadorNombreInput.getText().toUpperCase(), this.ContadorContrasenaInput.getText(),this.ContadorNotasInput.getText());
+        String valores = ContadorNombreInput.getText().toUpperCase() + ",";
+        valores += ContadorContrasenaInput.getText() + ",1,";
+        valores += ContadorNotasInput.getText();
+        System.out.println("antes de agregar=" + valores);
+        con.agregar("usuarios", "nombre,password,permisos,notas", valores);
+        System.out.println("Despues de agregar");
+        reiniciarJTable();
+        ContadorContrasenaInput.setText("");
+        ContadorNotasInput.setText("");
+        ContadorNombreInput.setText("");
     }//GEN-LAST:event_BtnGuardarContadorActionPerformed
+
+    private void ContadorNombreInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ContadorNombreInputKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            ContadorContrasenaInput.requestFocus();
+        }
+    }//GEN-LAST:event_ContadorNombreInputKeyPressed
+
+    private void ContadorContrasenaInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ContadorContrasenaInputKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            ContadorNotasInput.requestFocus();
+        }
+    }//GEN-LAST:event_ContadorContrasenaInputKeyPressed
+
+    private void CajeroNombreInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CajeroNombreInputKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            CajeroContrasenaInput.requestFocus();
+        }
+    }//GEN-LAST:event_CajeroNombreInputKeyPressed
+
+    private void CajeroContrasenaInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CajeroContrasenaInputKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            CajeroSucursalInput.requestFocus();
+        }
+    }//GEN-LAST:event_CajeroContrasenaInputKeyPressed
+
+    private void CajeroSucursalInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CajeroSucursalInputKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            CajeroNotas.requestFocus();
+        }
+    }//GEN-LAST:event_CajeroSucursalInputKeyPressed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String valores = CajeroNombreInput.getText().toUpperCase() + ",";
+        valores += CajeroContrasenaInput.getText() + ",0,";
+        valores += CajeroSucursalInput.getText() + ",";
+        valores += CajeroNotas.getText();
+        System.out.println("antes de agregar=" + valores);
+        con.agregar("usuarios", "nombre,password,permisos,sucursal,notas", valores);
+        System.out.println("Despues de agregar");
+        reiniciarJTable();
+        CajeroContrasenaInput.setText("");
+        CajeroNombreInput.setText("");
+        CajeroNotas.setText("");
+        CajeroSucursalInput.setText("");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void ContadorNotasInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ContadorNotasInputKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            BtnGuardarContador.requestFocus();
+        }
+    }//GEN-LAST:event_ContadorNotasInputKeyPressed
+
+    private void CajeroNotasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CajeroNotasKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jButton1.requestFocus();
+        }
+    }//GEN-LAST:event_CajeroNotasKeyPressed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        try {
+            EliminarCajeros();
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        try {
+            EliminarContadores();
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        try {
+            FacturaPDF.facturaPDFScreen pdf = new facturaPDFScreen();
+            pdf.show();
+            this.hide();
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -428,12 +630,12 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtnEliminarContador;
     private javax.swing.JButton BtnGuardarContador;
     private javax.swing.JTextField CajeroContrasenaInput;
     private javax.swing.JLabel CajeroContrasenaLabel;
     private javax.swing.JTextField CajeroNombreInput;
     private javax.swing.JLabel CajeroNombreLabel;
+    private javax.swing.JTextArea CajeroNotas;
     private javax.swing.JLabel CajeroNotasLabel;
     private javax.swing.JTextField CajeroSucursalInput;
     private javax.swing.JLabel CajeroSucursalLabel;
@@ -455,6 +657,8 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
     private javax.swing.JLabel fechaLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
@@ -462,8 +666,6 @@ public class gestionUsuariosScreen extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel userNameLabel;
     // End of variables declaration//GEN-END:variables
 }
-

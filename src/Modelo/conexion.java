@@ -4,11 +4,17 @@ import java.sql.*;
 import Configuracion.variablesGenerales;
 
 public class conexion {
-    
+
     Connection con = null;
     variablesGenerales vg = new variablesGenerales();
     String bd, user, pass;
-    
+    public String registro_busqueda = "";
+    public String registro_busqueda1 = "";
+    public String registro_busqueda2 = "";
+    public String registro_busqueda3 = "";
+    public String registro_busqueda4 = "";
+    public String registro_busqueda5 = "";
+
     public conexion() {
         bd = vg.baseDeDatos;
         user = vg.usuarioMysql;
@@ -32,7 +38,7 @@ public class conexion {
         con = null;
         System.out.println("**Desconectado");
     }
-    
+
     // Recibe el nombre de la tabla, los campos a tratar, y los valores a agregar
     public boolean agregar(String tabla, String campos, String valores) {
         System.out.println("Entramos a agregar");
@@ -54,6 +60,7 @@ public class conexion {
             return true;
         }
     }
+    
 
     //Recibe el nombre de la tabla,los campos a tratar,los valores a actualiza y la clausula a cumplir
     public boolean actualizar(String tabla, String campos, String valores, String clausula) {
@@ -61,10 +68,11 @@ public class conexion {
         int max = camp.length;
         String c;
         String query = "UPDATE " + tabla + " SET ", aux = "";
-        if (clausula == null)
+        if (clausula == null) {
             c = "1";
-        else
+        } else {
             c = clausula;
+        }
         for (int i = 0; i < max; i++) {
             aux += camp[i] + "=?";
             if (i != max - 1) {
@@ -98,60 +106,76 @@ public class conexion {
         }
     }
     
-    public String[][] leerDatos(String tabla){
-        int rows,columns;
-        if((rows=getRows(tabla))==-1)return null;
-        if((columns=getColumns(tabla))==-1)return null;
+    
+
+    public String[][] leerDatos(String tabla) {
+        int rows, columns;
+        if ((rows = getRows(tabla)) == -1) {
+            return null;
+        }
+        if ((columns = getColumns(tabla)) == -1) {
+            return null;
+        }
         String[][] data = new String[rows][columns];
-        String[] columnas=getColumnsNames(tabla);
-        String query="SELECT * FROM "+tabla;
+        String[] columnas = getColumnsNames(tabla);
+        String query = "SELECT * FROM " + tabla;
         ResultSet res;
-        
-        try{if((res=prepararEstados(query))==null)return null;
-            int i=0;
-            while(res.next()){
-                for(int j=0;j<columns;j++){
-                    data[i][j]=res.getString(columnas[j]);
+
+        try {
+            if ((res = prepararEstados(query)) == null) {
+                return null;
+            }
+            int i = 0;
+            while (res.next()) {
+                for (int j = 0; j < columns; j++) {
+                    data[i][j] = res.getString(columnas[j]);
                 }
                 i++;
-            }  
+            }
             res.close();
-        }catch(Exception e){
-            System.out.println("Problemas en leerDatos(tabla):\n"+e);
+        } catch (Exception e) {
+            System.out.println("Problemas en leerDatos(tabla):\n" + e);
             return null;
         }
         return data;
     }
-    
-    public String [][] leerDatos(String tabla,String campos,String condicion){
-        if(condicion==null)condicion="1";
-        int rows,columns;
-        if((rows=getRows(tabla))==-1)
+
+    public String[][] leerDatos(String tabla, String campos, String condicion) {
+        if (condicion == null) {
+            condicion = "1";
+        }
+        int rows, columns;
+        if ((rows = getRows(tabla)) == -1) {
             return null;
-        
-        String[] columnas=campos.split(",");
-        columns=columnas.length;
+        }
+
+        String[] columnas = campos.split(",");
+        columns = columnas.length;
         String[][] data = new String[rows][columns];
-        String query="SELECT "+campos+" FROM "+tabla+" WHERE "+condicion;
+        String query = "SELECT " + campos + " FROM " + tabla + " WHERE " + condicion;
 
         ResultSet res;
-        try{ if((res=prepararEstados(query))==null)return null;
-            int i = 0;
-            while(res.next())
-            {
-                for(int j=0;j<columns;j++){
-                    data[i][j]=res.getString(columnas[j]);
-                }
-             i++;
+        try {
+            if ((res = prepararEstados(query)) == null) {
+                return null;
             }
-            if(data[0][0]==null) return null;
-        res.close();
-        }catch(SQLException e){
-        System.out.println("Problemas en leerDatos(campos,tabla,condicion: ):\n"+e);
-        return null;
+            int i = 0;
+            while (res.next()) {
+                for (int j = 0; j < columns; j++) {
+                    data[i][j] = res.getString(columnas[j]);
+                }
+                i++;
+            }
+            if (data[0][0] == null) {
+                return null;
+            }
+            res.close();
+        } catch (SQLException e) {
+            System.out.println("Problemas en leerDatos(campos,tabla,condicion: ):\n" + e);
+            return null;
         }
         return data;
-        }
+    }
 
     // Recoje el query predesarrollado y los valores a manejar en una query de mysql
     // y posteriormente los ejecuta.
@@ -185,14 +209,14 @@ public class conexion {
         desconectar();
         return r;
     }
-    
-    private ResultSet prepararEstados(String query){
-        ResultSet res=null;
-        try{
-            PreparedStatement pstm = (PreparedStatement)conectar().prepareStatement(query);
+
+    private ResultSet prepararEstados(String query) {
+        ResultSet res = null;
+        try {
+            PreparedStatement pstm = (PreparedStatement) conectar().prepareStatement(query);
             res = pstm.executeQuery();
-        }catch(SQLException e){
-        System.out.println("Problemas al preparar estados en leerDatos:\n"+e);
+        } catch (SQLException e) {
+            System.out.println("Problemas al preparar estados en leerDatos:\n" + e);
         }
         desconectar();
         return res;
@@ -220,56 +244,75 @@ public class conexion {
         str += ")";
         return str;
     }
-    
-    private int getRows(String tabla){
+
+    private int getRows(String tabla) {
         int rows = -1;
-        try{
-           PreparedStatement pstm=(PreparedStatement)conectar().prepareStatement("SELECT count(1) as total FROM "+tabla);
-           ResultSet res = pstm.executeQuery();
-           res.next();
-           rows = res.getInt("total");
-           res.close();
-           }
-         catch(SQLException e)
-         {
-           System.out.println("Problemas al obtener numero de Filas: "+e);
-         }
+        try {
+            PreparedStatement pstm = (PreparedStatement) conectar().prepareStatement("SELECT count(1) as total FROM " + tabla);
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            rows = res.getInt("total");
+            res.close();
+        } catch (SQLException e) {
+            System.out.println("Problemas al obtener numero de Filas: " + e);
+        }
         return rows;
     }
-    
-    private int getColumns(String tabla){
-        int columns=-1;
-        String query="SELECT Count(*) as total FROM INFORMATION_SCHEMA.Columns where TABLE_NAME='"+tabla+"' AND table_schema='"+vg.baseDeDatos+"'  GROUP BY column_default";
-        try{
-           PreparedStatement pstm=(PreparedStatement)conectar().prepareStatement(query);
-           ResultSet res = pstm.executeQuery();
-           res.next();
-           columns = res.getInt("total");
-           res.close();
-           }
-         catch(SQLException e)
-         {
-           System.out.println("Problemas al obtener el numero de columnas:\n"+e);
-         }
+
+    private int getColumns(String tabla) {
+        int columns = -1;
+        String query = "SELECT Count(*) as total FROM INFORMATION_SCHEMA.Columns where TABLE_NAME='" + tabla + "' AND table_schema='" + vg.baseDeDatos + "'  GROUP BY column_default";
+        try {
+            PreparedStatement pstm = (PreparedStatement) conectar().prepareStatement(query);
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            columns = res.getInt("total");
+            res.close();
+        } catch (SQLException e) {
+            System.out.println("Problemas al obtener el numero de columnas:\n" + e);
+        }
         return columns;
     }
-    private String[] getColumnsNames(String tabla){
-        String[] columns=new String[getColumns(tabla)];
-        String query="SELECT column_name FROM information_schema.columns WHERE table_name='"+tabla+"' AND table_schema='"+vg.baseDeDatos+"' GROUP BY column_name ORDER BY column_default";
-        try{
-           PreparedStatement pstm=(PreparedStatement)conectar().prepareStatement(query);
-           ResultSet res = pstm.executeQuery();
-           int i=0;
-                while(res.next()){
-                columns[i]=res.getString("column_name");
+
+    private String[] getColumnsNames(String tabla) {
+        String[] columns = new String[getColumns(tabla)];
+        String query = "SELECT column_name FROM information_schema.columns WHERE table_name='" + tabla + "' AND table_schema='" + vg.baseDeDatos + "' GROUP BY column_name ORDER BY column_default";
+        try {
+            PreparedStatement pstm = (PreparedStatement) conectar().prepareStatement(query);
+            ResultSet res = pstm.executeQuery();
+            int i = 0;
+            while (res.next()) {
+                columns[i] = res.getString("column_name");
                 i++;
-                }
-           res.close();
-           }
-         catch(Exception e)
-         {
-           System.out.println("Problemas al obtener el nombre de las columnas:\n"+e);
-         }
+            }
+            res.close();
+        } catch (Exception e) {
+            System.out.println("Problemas al obtener el nombre de las columnas:\n" + e);
+        }
         return columns;
+    }
+
+    public void busquedaCliente(String tabla, String campo, String clausula) {
+        try {
+            registro_busqueda = "";
+            registro_busqueda1 = "";
+            registro_busqueda2 = "";
+            registro_busqueda3 = "";
+            registro_busqueda4 = "";
+            registro_busqueda5 = "";
+            PreparedStatement pstm = (PreparedStatement) conectar().prepareStatement("SELECT " + campo + " AS RFC, nombre_cliente AS NOM, domicilio AS DOM, ciudad AS CI, estado AS EST, email AS EM FROM " + tabla + " WHERE " + campo + "= '" + clausula + "';");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            registro_busqueda = res.getString("RFC");
+            registro_busqueda1 = res.getString("NOM");
+            registro_busqueda2 = res.getString("DOM");
+            registro_busqueda3 = res.getString("CI");
+            registro_busqueda4 = res.getString("EST");
+            registro_busqueda5 = res.getString("EM");
+            res.close();
+        } catch (Exception e) {
+
+        }
+
     }
 }

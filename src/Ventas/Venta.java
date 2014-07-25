@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 public class Venta extends javax.swing.JFrame {
 
     private conexion con = new conexion();
-    private int registros;
+    private int registros,bandera=0;
     private String registro_buqueda;
     private String registro_precio;
     private String rfc, org;
@@ -67,6 +67,14 @@ public class Venta extends javax.swing.JFrame {
         rfc_cliente = new javax.swing.JTextField();
         compañia = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        domicilio = new javax.swing.JTextField();
+        ciudad = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        estado = new javax.swing.JTextField();
+        email = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -123,27 +131,91 @@ public class Venta extends javax.swing.JFrame {
 
         rfc_cliente.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         rfc_cliente.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        rfc_cliente.setToolTipText("Presione enter para continuar");
         rfc_cliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 rfc_clienteKeyPressed(evt);
             }
         });
-        jPanel1.add(rfc_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(142, 37, 277, -1));
+        jPanel1.add(rfc_cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 40, 277, -1));
 
         compañia.setEditable(false);
         compañia.setBackground(java.awt.Color.white);
         compañia.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         compañia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        compañia.setToolTipText("Presione enter para continuar");
         compañia.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 compañiaKeyPressed(evt);
             }
         });
-        jPanel1.add(compañia, new org.netbeans.lib.awtextra.AbsoluteConstraints(142, 68, 277, -1));
+        jPanel1.add(compañia, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 277, -1));
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         jLabel5.setText("DATOS CLIENTE");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 12, -1, -1));
+
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jLabel8.setText("Domicilio");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
+
+        jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jLabel9.setText("Ciudad");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
+
+        domicilio.setEditable(false);
+        domicilio.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        domicilio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        domicilio.setToolTipText("Presione enter para continuar");
+        domicilio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                domicilioKeyPressed(evt);
+            }
+        });
+        jPanel1.add(domicilio, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 277, -1));
+
+        ciudad.setEditable(false);
+        ciudad.setBackground(java.awt.Color.white);
+        ciudad.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        ciudad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        ciudad.setToolTipText("Presione enter para continuar");
+        ciudad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                ciudadKeyPressed(evt);
+            }
+        });
+        jPanel1.add(ciudad, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 277, -1));
+
+        jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jLabel10.setText("Estado");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
+
+        jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jLabel11.setText("Email");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
+
+        estado.setEditable(false);
+        estado.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        estado.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        estado.setToolTipText("Presione enter para continuar");
+        estado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                estadoKeyPressed(evt);
+            }
+        });
+        jPanel1.add(estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, 277, -1));
+
+        email.setEditable(false);
+        email.setBackground(java.awt.Color.white);
+        email.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        email.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        email.setToolTipText("Presione enter para continuar");
+        email.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                emailKeyPressed(evt);
+            }
+        });
+        jPanel1.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, 277, -1));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 1, true));
@@ -185,6 +257,7 @@ public class Venta extends javax.swing.JFrame {
 
         producto.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         producto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        producto.setToolTipText("Presione enter para continuar");
         producto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 productoKeyPressed(evt);
@@ -196,6 +269,7 @@ public class Venta extends javax.swing.JFrame {
         cantidad.setBackground(new java.awt.Color(255, 255, 255));
         cantidad.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         cantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        cantidad.setToolTipText("Presione enter para continuar");
         cantidad.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 cantidadKeyPressed(evt);
@@ -207,6 +281,7 @@ public class Venta extends javax.swing.JFrame {
         precio.setBackground(new java.awt.Color(255, 255, 255));
         precio.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         precio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        precio.setToolTipText("Presione enter para continuar");
         precio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 precioKeyPressed(evt);
@@ -254,19 +329,22 @@ public class Venta extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(335, 335, 335)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(folio, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(335, 335, 335)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(folio, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,8 +358,9 @@ public class Venta extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
@@ -354,21 +433,86 @@ public class Venta extends javax.swing.JFrame {
         Eliminar();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    public void validarRFC() {
+        int v = 0;
+        String RFC = "";
+        RFC = rfc_cliente.getText().toUpperCase();
+        if (RFC.length() < 13 || RFC.length() > 13) {
+            JOptionPane.showMessageDialog(null, "Ingrese un RFC valido", "RFC NO VALIDO", JOptionPane.INFORMATION_MESSAGE);
+            rfc_cliente.setText("");
+            rfc_cliente.requestFocus();
+        } else {
+            if (!RFC.matches("^[a-zA-Z]{4}.*$")) {
+                RFC = "XXXX" + RFC.substring(4);
+                v = 1;
+            }
+            if (!RFC.matches("^.{4}\\d{6}.*$")) {
+                RFC = RFC.substring(0, 4) + "000000" + RFC.substring(10);
+                v = 1;
+            }
+            if (v == 1) {
+                JOptionPane.showMessageDialog(null, RFC + " Invalido");
+                rfc_cliente.setText("");
+                rfc_cliente.requestFocus();
+            } else {
+//                JOptionPane.showMessageDialog(null, RFC + " Valido");
+                con.busquedaCliente("clientes", "rfc", rfc_cliente.getText().toUpperCase());
+                if ("".equals(con.registro_busqueda)) {
+                    compañia.setEditable(true);
+                    domicilio.setEditable(true);
+                    ciudad.setEditable(true);
+                    estado.setEditable(true);
+                    email.setEditable(true);
+                    bandera=1;
+//                    con.agregar("clientes", "rfc,nombre_cliente,domicilio,ciudad,estado,email", rfc_cliente.getText().toUpperCase() + "," + compañia.getText().toUpperCase() + "," + domicilio.getText().toUpperCase() + "," + ciudad.getText().toUpperCase() + "," + estado.getText().toUpperCase() + "," + email.getText());
+                } else {
+                    compañia.setText(con.registro_busqueda1);
+                    domicilio.setText(con.registro_busqueda2);
+                    ciudad.setText(con.registro_busqueda3);
+                    estado.setText(con.registro_busqueda4);
+                    email.setText(con.registro_busqueda5);
+                    bandera=0;
+                }
+                rfc = RFC;
+//                compañia.setEditable(true);
+//                compañia.requestFocus();
+                factura = 1;
+            }
+        }
+
+    }
+
+    public void reiniciarJTable() {
+        try {
+            for (int i = 0; i < jTable1.getRowCount(); i++) {
+                modelo.removeRow(i);
+                i -= 1;
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    public void clear()
+    {
+        compañia.setText("");
+        producto.setText("");
+        precio.setText("");
+        cantidad.setText("");
+        rfc_cliente.setText("");
+        domicilio.setText("");
+        ciudad.setText("");
+        estado.setText("");
+        email.setText("");
+        id_folioVenta();
+    }
+
+
     private void rfc_clienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rfc_clienteKeyPressed
         // TODO add your handling code here:
 
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            rfc = rfc_cliente.getText().toUpperCase();
             try {
-                if ("".equals(rfc) || 13 != rfc.length()) {
-                    JOptionPane.showMessageDialog(null, "Formato Invalido...");
-                    rfc_cliente.setText("");
-                    rfc_cliente.requestFocus();
-                } else {
-                    compañia.setEditable(true);
-                    compañia.requestFocus();
-                    factura = 1;
-                }
+                validarRFC();
             } catch (HeadlessException e) {
             }
         }
@@ -391,7 +535,7 @@ public class Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_precioKeyPressed
 
     private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
-        this.setSize(470, 550);
+        this.setSize(470, 670);
         rfc_cliente.requestFocus();
         producto.setEditable(false);
         precio.setEditable(false);
@@ -404,7 +548,7 @@ public class Venta extends javax.swing.JFrame {
         // TODO add your handling code here
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             org = compañia.getText().toUpperCase();
-            jButton3.requestFocus();
+            domicilio.requestFocus();
         }
     }//GEN-LAST:event_compañiaKeyPressed
 
@@ -431,21 +575,21 @@ public class Venta extends javax.swing.JFrame {
             subtotal += Integer.parseInt(jTable1.getValueAt(i, 2).toString()) * Double.parseDouble(jTable1.getValueAt(i, 3).toString());
         }
         total = subtotal + (subtotal * 16 / 100);
-//         JOptionPane.showMessageDialog(null, subtotal + " "+total);
+//         JOptionPane.showMessageDialog(null, productos+"  "+cantidades+"   "+  precios+"   "+subtotal + " "+total);
         String val = "";
         if (factura == 1) {
             if (subtotal >= 100) {
                 val += rfc + ",";
+                val += compañia.getText().toUpperCase() + ",";
                 val += productos + ",";
                 val += cantidades + ",";
                 val += precios + ",";
                 val += subtotal + ",";
                 val += total + ",";
-                val += org + ",";
                 val += 1;
                 con.agregar("ventas", "rfc_cliente,empresa,producto,cantidad,precio_unitario,subtotal,total,factura", val);
             } else {
-                JOptionPane.showMessageDialog(null, "La compra debe ser >= $100.00 pesos");
+//                JOptionPane.showMessageDialog(null, "La compra debe ser >= $100.00 pesos");
             }
         } else if (factura == 0) {
             val += productos + ",";
@@ -455,10 +599,16 @@ public class Venta extends javax.swing.JFrame {
             val += total + ",";
             val += 0;
             con.agregar("ventas", "producto,cantidad,precio_unitario,subtotal,total,factura", val);
+//       JOptionPane.showMessageDialog(null, val);
         }
+        if(bandera==1)
+        {
+            con.agregar("clientes", "rfc,nombre_cliente,domicilio,ciudad,estado,email", rfc_cliente.getText().toUpperCase() + "," + compañia.getText().toUpperCase() + "," + domicilio.getText().toUpperCase() + "," + ciudad.getText().toUpperCase() + "," + estado.getText().toUpperCase() + "," + email.getText());
+        }
+        reiniciarJTable();
+        clear();
+
 //        this.dispose();
-
-
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void cantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cantidadKeyPressed
@@ -467,6 +617,34 @@ public class Venta extends javax.swing.JFrame {
             jButton1.requestFocus();
         }
     }//GEN-LAST:event_cantidadKeyPressed
+
+    private void domicilioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_domicilioKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            ciudad.requestFocus();
+        }
+    }//GEN-LAST:event_domicilioKeyPressed
+
+    private void ciudadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ciudadKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            estado.requestFocus();
+        }
+    }//GEN-LAST:event_ciudadKeyPressed
+
+    private void estadoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_estadoKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            email.requestFocus();
+        }
+    }//GEN-LAST:event_estadoKeyPressed
+
+    private void emailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_emailKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jButton3.requestFocus();
+        }
+    }//GEN-LAST:event_emailKeyPressed
 
     /**
      * @param args the command line arguments
@@ -505,18 +683,26 @@ public class Venta extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField cantidad;
+    private javax.swing.JTextField ciudad;
     private javax.swing.JTextField compañia;
+    private javax.swing.JTextField domicilio;
+    private javax.swing.JTextField email;
+    private javax.swing.JTextField estado;
     private javax.swing.JTextField folio;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;

@@ -45,7 +45,6 @@ public class facturaPDFScreen extends javax.swing.JFrame {
         modelo.addColumn("Subtotal");
         modelo.addColumn("Total");
         this.jTable1.setModel(modelo);
-        
         FacturaClass fc = new FacturaClass(modelo);
         fc.getDatos();
 

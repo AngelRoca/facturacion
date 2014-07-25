@@ -1,5 +1,3 @@
-package LogIn;
-
 import Modelo.*;
 import Ventas.Venta;
 import GestionUsuarios.gestionUsuariosScreen;
