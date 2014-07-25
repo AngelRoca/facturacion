@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.9" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <Properties>
@@ -72,13 +72,18 @@
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
+<<<<<<< HEAD
                       <EmptySpace min="335" pref="335" max="-2" attributes="0"/>
+=======
+                      <EmptySpace min="-2" pref="284" max="-2" attributes="0"/>
+>>>>>>> c459b9650a0137d776ee965bc852f91900dae331
                       <Component id="jLabel1" min="-2" pref="45" max="-2" attributes="0"/>
                       <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                       <Component id="folio" min="-2" pref="48" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+<<<<<<< HEAD
                       <Component id="jScrollPane1" min="-2" pref="430" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -91,6 +96,16 @@
                   </Group>
               </Group>
               <EmptySpace pref="12" max="32767" attributes="0"/>
+=======
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jScrollPane1" min="-2" pref="430" max="-2" attributes="0"/>
+                          <Component id="jPanel2" min="-2" pref="430" max="-2" attributes="0"/>
+                          <Component id="jPanel1" min="-2" pref="430" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
+>>>>>>> c459b9650a0137d776ee965bc852f91900dae331
           </Group>
       </Group>
     </DimensionLayout>
@@ -104,13 +119,19 @@
                       <Component id="folio" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="11" pref="11" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="186" max="-2" attributes="0"/>
               <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
               <Component id="jPanel2" min="-2" pref="110" max="-2" attributes="0"/>
+<<<<<<< HEAD
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" pref="229" max="-2" attributes="0"/>
               <EmptySpace pref="22" max="32767" attributes="0"/>
+=======
+              <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
+              <Component id="jPanel1" min="-2" pref="100" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+>>>>>>> c459b9650a0137d776ee965bc852f91900dae331
           </Group>
       </Group>
     </DimensionLayout>
@@ -129,6 +150,9 @@
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Times New Roman" size="12" style="1"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Folio"/>
       </Properties>
@@ -174,6 +198,7 @@
             </LineBorder>
           </Border>
         </Property>
+        <Property name="opaque" type="boolean" value="false"/>
       </Properties>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
@@ -184,6 +209,9 @@
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="12" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Compa&#xf1;ia"/>
           </Properties>
@@ -197,6 +225,9 @@
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="12" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="RFC"/>
           </Properties>
@@ -248,6 +279,9 @@
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="12" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="DATOS CLIENTE"/>
           </Properties>
@@ -401,6 +435,7 @@
             </LineBorder>
           </Border>
         </Property>
+        <Property name="opaque" type="boolean" value="false"/>
       </Properties>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
@@ -411,6 +446,9 @@
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="12" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Codigo Producto"/>
           </Properties>
@@ -424,6 +462,9 @@
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="12" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Cantidad"/>
           </Properties>
@@ -463,6 +504,9 @@
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="12" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Precio Unitario"/>
           </Properties>
